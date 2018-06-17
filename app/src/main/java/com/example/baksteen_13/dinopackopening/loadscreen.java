@@ -39,7 +39,7 @@ public class loadscreen extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(loadscreen.this, MainActivity.class));
+                        startActivity(new Intent(loadscreen.this, BurgerActivity.class));
 
                     }
                 });
