@@ -1,12 +1,12 @@
 package com.example.baksteen_13.dinopackopening;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,23 +15,26 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class FirstFragment extends Fragment{
+    View myView;
 
+
+    //shit
     private TextView mTextMessage;
-
-
     private ArrayList<String> al;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayAdapter arrayAdapter;
     private int i;
+    //shit
 
 
-
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        myView = inflater.inflate(R.layout.activity_main, container, false);
 
+
+        //shit
+        super.onCreate(savedInstanceState);
 
         al = new ArrayList<>();
         al.add("php");
@@ -43,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
         al.add("css");
         al.add("javascript");
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.item, R.id.helloText, al );
+        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al );
 
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame);
+
+        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) myView.findViewById(R.id.frame);
 
         flingContainer.setAdapter(arrayAdapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -62,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                Toast.makeText(MainActivity.this, "Je vind deze dino niet leuk!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Je vind deze dino niet leuk!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this, "Je vind deze dino leuk!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Je vind deze dino leuk!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -81,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-              //  View view = flingContainer.getSelectedView();
-              //  view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-              //  view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+                //  View view = flingContainer.getSelectedView();
+                //  view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                //  view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
 
@@ -92,13 +96,16 @@ public class MainActivity extends AppCompatActivity {
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
 
-    public void onBackPressed() {
-        // Simply Do noting!
+        //shit
+
+
+
+        return myView;
     }
+
 }
