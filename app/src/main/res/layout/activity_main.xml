@@ -37,7 +37,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="52dp"
-        android:layout_marginStart="216dp"
+        android:layout_marginStart="226dp"
         android:background="@android:color/holo_green_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

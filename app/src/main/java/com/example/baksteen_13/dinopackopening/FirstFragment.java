@@ -18,6 +18,8 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
 
+import static com.example.baksteen_13.dinopackopening.R.*;
+
 public class FirstFragment extends Fragment{
 
 
@@ -30,30 +32,10 @@ public class FirstFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.activity_main, container, false);
-
-
-       Button dislike = (Button) myView.findViewById(R.id.btndislike);
-        dislike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "DISLIKE", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        View myView = inflater.inflate(layout.activity_main, container, false);
 
 
 
-
-        Button like = (Button) myView.findViewById(R.id.btnlike);
-
-        like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "LIKE", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
 
         super.onCreate(savedInstanceState);
@@ -68,12 +50,50 @@ public class FirstFragment extends Fragment{
         al.add("css");
         al.add("javascript");
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.item, R.id.helloText, al );
+        arrayAdapter = new ArrayAdapter<>(getActivity(), layout.item, id.helloText, al );
 
 
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) myView.findViewById(R.id.frame);
+        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) myView.findViewById(id.frame);
 
         flingContainer.setAdapter(arrayAdapter);
+
+
+        /*@OnClick(id.right)
+        public void right() {
+            /**
+             * Trigger the right event manually.
+
+            flingContainer.getTopCardListener().selectRight();
+        }
+
+        @OnClick(id.left)
+        public void left() {
+            flingContainer.getTopCardListener().selectLeft();
+        }*/
+
+
+
+        Button dislike = (Button) myView.findViewById(id.btndislike);
+        dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) getView().findViewById(id.frame);
+                Snackbar.make(v, "DISLIKE", Snackbar.LENGTH_LONG);
+                flingContainer.getTopCardListener().selectLeft();
+            }
+        });
+
+        Button like = (Button) myView.findViewById(id.btnlike);
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) getView().findViewById(id.frame);
+                Snackbar.make(view, "LIKE", Snackbar.LENGTH_LONG);
+                flingContainer.getTopCardListener().selectRight();
+            }
+        });
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
@@ -111,6 +131,8 @@ public class FirstFragment extends Fragment{
                 //  view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
                 //  view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
+
+
         });
 
 
