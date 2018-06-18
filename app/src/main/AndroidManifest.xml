@@ -20,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".BurgerActivity"></activity>
+        <activity android:name=".BurgerActivity" />
+        <activity android:name=".SecondActivity"></activity>
     </application>
 
 </manifest>
