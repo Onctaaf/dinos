@@ -3,11 +3,14 @@ package com.example.baksteen_13.dinopackopening;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,24 +19,43 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment{
-    View myView;
 
 
-    //shit
     private TextView mTextMessage;
     private ArrayList<String> al;
     private ArrayAdapter arrayAdapter;
     private int i;
-    //shit
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.activity_main, container, false);
+        View myView = inflater.inflate(R.layout.activity_main, container, false);
 
 
-        //shit
+       Button dislike = (Button) myView.findViewById(R.id.btndislike);
+        dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "DISLIKE", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+
+
+        Button like = (Button) myView.findViewById(R.id.btnlike);
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "LIKE", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
         super.onCreate(savedInstanceState);
 
         al = new ArrayList<>();
@@ -99,13 +121,7 @@ public class FirstFragment extends Fragment{
                 Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        //shit
-
-
-
         return myView;
-    }
+    }/*end oncreateview()*/
 
 }
