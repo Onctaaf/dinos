@@ -20,42 +20,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    String description = "Android Developement Tutorial";
-    EditText editText;
-    Button btn;
-
     private TextView mTextMessage;
     private ArrayList<String> al;
     private ArrayAdapter<String> arrayAdapter;
     private int i;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        editText = (EditText) findViewById(R.id.editText);
-
-        btn = (Button) findViewById(R.id.button);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String namevalue = editText.getText().toString();
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                intent.putExtra("NAME", namevalue);
-                intent.putExtra("DISCRIPTION", description);
-                startActivity(intent);
-            }
-        });
-
-
-        setContentView(R.layout.activity_main);
-
 
         al = new ArrayList<>();
         al.add("php");
