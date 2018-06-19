@@ -1,6 +1,7 @@
 package com.example.baksteen_13.dinopackopening;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -35,6 +38,9 @@ public class FirstFragment extends Fragment{
         View myView = inflater.inflate(layout.activity_main, container, false);
 
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+        myRef.setValue("Hello, World!");
 
 
 
@@ -58,21 +64,6 @@ public class FirstFragment extends Fragment{
         flingContainer.setAdapter(arrayAdapter);
 
 
-        /*@OnClick(id.right)
-        public void right() {
-            /**
-             * Trigger the right event manually.
-
-            flingContainer.getTopCardListener().selectRight();
-        }
-
-        @OnClick(id.left)
-        public void left() {
-            flingContainer.getTopCardListener().selectLeft();
-        }*/
-
-
-
         Button dislike = (Button) myView.findViewById(id.btndislike);
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +83,7 @@ public class FirstFragment extends Fragment{
                 SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) getView().findViewById(id.frame);
                 Snackbar.make(view, "LIKE", Snackbar.LENGTH_LONG);
                 flingContainer.getTopCardListener().selectRight();
+
             }
         });
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -141,6 +133,8 @@ public class FirstFragment extends Fragment{
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
                 Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentmanager = getFragmentManager();
+                fragmentmanager.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();
             }
         });
         return myView;
