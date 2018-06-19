@@ -3,6 +3,7 @@ package com.example.baksteen_13.dinopackopening;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.renderscript.Element;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -55,17 +56,35 @@ public class FirstFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         al = new ArrayList<>();
-        al.add("php");
-        al.add("c");
-        al.add("python");
-        al.add("java");
-        al.add("html");
-        al.add("c++");
-        al.add("css");
-        al.add("javascript");
+        al.add("Tyrannosaurus");
+        al.add("Brachiosaurus");
+        al.add("Spinosaurus");
+        al.add("Velociraptor");
+        al.add("Stegosaurus");
+        al.add("Triceratops");
+        al.add("Allosaurus");
+        al.add("Ankylosaurus");
+        al.add("Dilophosaurus");
+        al.add("Carnotaurus");
+        al.add("Diplodocus");
+        al.add("Iguanodon");
+        al.add("Giganotosaurus");
+        al.add("Baryonyx");
+        al.add("Gallimimus");
+        al.add("Megalosaurus");
 
         arrayAdapter = new ArrayAdapter<>(getActivity(), layout.item, id.helloText, al );
 
+        int dinoId = 0;
+        for(int i=0 ; i<arrayAdapter.getCount() ; i++){
+            Object obj = arrayAdapter.getItem(i);
+
+            String idstring = Integer.toString(dinoId);
+            final String name = obj.toString();
+            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child(idstring).child("name");
+            currentUserDb.setValue(name);
+            dinoId++;
+        }
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) myView.findViewById(id.frame);
 

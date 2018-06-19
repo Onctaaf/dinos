@@ -96,7 +96,7 @@ public class BurgerActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(BurgerActivity.this, RegistrationActivity.class);
+            Intent intent = new Intent(BurgerActivity.this, ChooseActivity.class);
             startActivity(intent);
             finish();
 

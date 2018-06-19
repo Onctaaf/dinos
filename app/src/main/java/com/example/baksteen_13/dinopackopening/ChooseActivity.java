@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ChooseActivity extends AppCompatActivity {
 
     private Button mLogin, mRegister;
@@ -37,5 +40,20 @@ public class ChooseActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            Intent intent = new Intent(ChooseActivity.this, BurgerActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
