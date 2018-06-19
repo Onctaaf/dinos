@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class FirstFragment extends Fragment{
         flingContainer.setAdapter(arrayAdapter);
 
 
-        Button dislike = (Button) myView.findViewById(id.btndislike);
+        ImageButton dislike = (ImageButton) myView.findViewById(id.btndislike);
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +76,7 @@ public class FirstFragment extends Fragment{
             }
         });
 
-        Button like = (Button) myView.findViewById(id.btnlike);
+        ImageButton like = (ImageButton) myView.findViewById(id.btnlike);
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
