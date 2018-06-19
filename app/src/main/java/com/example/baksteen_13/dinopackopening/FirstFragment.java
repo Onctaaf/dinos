@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.renderscript.Element;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -53,10 +57,12 @@ public class FirstFragment extends Fragment{
         myRef.setValue("Hello, World!");
 
 
+
+
         super.onCreate(savedInstanceState);
 
         al = new ArrayList<>();
-        al.add("Tyrannosaurus");
+        /*al.add("Tyrannosaurus");
         al.add("Brachiosaurus");
         al.add("Spinosaurus");
         al.add("Velociraptor");
@@ -71,11 +77,11 @@ public class FirstFragment extends Fragment{
         al.add("Giganotosaurus");
         al.add("Baryonyx");
         al.add("Gallimimus");
-        al.add("Megalosaurus");
+        al.add("Megalosaurus");*/
 
         arrayAdapter = new ArrayAdapter<>(getActivity(), layout.item, id.helloText, al );
 
-        int dinoId = 0;
+        /*int dinoId = 0;
         for(int i=0 ; i<arrayAdapter.getCount() ; i++){
             Object obj = arrayAdapter.getItem(i);
 
@@ -84,7 +90,9 @@ public class FirstFragment extends Fragment{
             DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child(idstring).child("name");
             currentUserDb.setValue(name);
             dinoId++;
-        }
+        }*/
+
+        getDinos();
 
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) myView.findViewById(id.frame);
 
@@ -138,20 +146,18 @@ public class FirstFragment extends Fragment{
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
                 // Ask for more data here
-                al.add("XML ".concat(String.valueOf(i)));
+                /*al.add("XML ".concat(String.valueOf(i)));
                 arrayAdapter.notifyDataSetChanged();
                 Log.d("LIST", "notified");
-                i++;
+                i++;*/
             }
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-                 // View view = flingContainer.getSelectedView();
-                 // view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-                 // view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+                // View view = flingContainer.getSelectedView();
+                // view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                // view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
-
-
         });
 
 
@@ -166,5 +172,38 @@ public class FirstFragment extends Fragment{
         });
         return myView;
     }/*end oncreateview()*/
+
+    private void getDinos() {
+        DatabaseReference dinosDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos");
+        dinosDb.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if (dataSnapshot.exists()){
+                    al.add(dataSnapshot.child("name").getValue().toString());
+                    arrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }
