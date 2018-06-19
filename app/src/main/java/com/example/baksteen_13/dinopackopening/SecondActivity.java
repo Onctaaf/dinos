@@ -1,5 +1,6 @@
 package com.example.baksteen_13.dinopackopening;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ public class SecondActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(SecondActivity.this, BurgerActivity.class);
+                startActivity(intent);
             }
         });
     }

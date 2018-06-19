@@ -4,26 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dinobg"
     android:orientation="vertical"
-    tools:context=".ChooseActivity"
-    android:background="@color/cardview_light_background">
+    tools:context=".ChooseActivity">
 
     <Button
         android:id="@+id/login"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="256dp"
+        android:layout_marginTop="114dp"
+        android:background="@drawable/my_button_bg"
+        android:fontFamily="casual"
         android:text="inloggen"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/register"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="registreer"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="105dp"
+        android:background="@drawable/my_button_bg"
+        android:fontFamily="casual"
+        android:text="registreren"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
