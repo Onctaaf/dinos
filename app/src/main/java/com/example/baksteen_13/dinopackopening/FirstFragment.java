@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
@@ -32,17 +33,23 @@ public class FirstFragment extends Fragment{
     private ArrayAdapter arrayAdapter;
     private int i;
 
+    private FirebaseAuth mAuth;
+    private String currentUId;
+    private DatabaseReference usersDb;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View myView = inflater.inflate(layout.activity_main, container, false);
+        final View myView = inflater.inflate(layout.activity_main, container, false);
 
+        usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUId = mAuth.getCurrentUser().getUid();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
         myRef.setValue("Hello, World!");
-
 
 
         super.onCreate(savedInstanceState);
@@ -71,7 +78,7 @@ public class FirstFragment extends Fragment{
             public void onClick(View v) {
 
                 SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) getView().findViewById(id.frame);
-                Snackbar.make(v, "DISLIKE", Snackbar.LENGTH_LONG);
+                //Snackbar.make(v, "DISLIKE", Snackbar.LENGTH_LONG).show();
                 flingContainer.getTopCardListener().selectLeft();
             }
         });
@@ -82,7 +89,7 @@ public class FirstFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) getView().findViewById(id.frame);
-                Snackbar.make(view, "LIKE", Snackbar.LENGTH_LONG);
+                //Snackbar.make(view, "LIKE", Snackbar.LENGTH_LONG).show();
                 flingContainer.getTopCardListener().selectRight();
 
             }
@@ -101,12 +108,12 @@ public class FirstFragment extends Fragment{
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                Toast.makeText(getActivity(), "Je vind deze dino niet leuk!", Toast.LENGTH_SHORT).show();
+                Snackbar.make(myView, "DISLIKE", Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(getActivity(), "Je vind deze dino leuk!", Toast.LENGTH_SHORT).show();
+                Snackbar.make(myView, "LIKE", Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
@@ -120,9 +127,9 @@ public class FirstFragment extends Fragment{
 
             @Override
             public void onScroll(float scrollProgressPercent) {
-                //  View view = flingContainer.getSelectedView();
-                //  view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-                //  view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+                 // View view = flingContainer.getSelectedView();
+                 // view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                 // view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
 
 

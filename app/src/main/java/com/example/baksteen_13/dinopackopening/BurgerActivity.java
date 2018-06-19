@@ -1,6 +1,7 @@
 package com.example.baksteen_13.dinopackopening;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -42,12 +45,7 @@ public class BurgerActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
     }
 
     @Override
@@ -97,6 +95,10 @@ public class BurgerActivity extends AppCompatActivity
                     .commit();
 
         } else if (id == R.id.nav_share) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(BurgerActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_send) {
 
