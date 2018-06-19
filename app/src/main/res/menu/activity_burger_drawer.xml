@@ -6,11 +6,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_first_layout"
-            android:icon="@drawable/swipe"
+            android:icon="@drawable/vergelijk"
             android:title="Dinos keuren" />
         <item
             android:id="@+id/nav_second_layout"
-            android:icon="@drawable/match"
+            android:icon="@drawable/grafiekje"
             android:title="Resultaten" />
         <item
             android:id="@+id/nav_third_layout"
