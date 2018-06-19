@@ -71,6 +71,22 @@ public class RegistrationActivity extends AppCompatActivity {
                         }else{
                             String userId = mAuth.getCurrentUser().getUid();
                             DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Human").child(userId).child("name");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Tyrannosaurus").child("dummy").setValue("Tyrannosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Brachiosaurus").child("dummy").setValue("Brachiosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Spinosaurus").child("dummy").setValue("Spinosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Velociraptor").child("dummy").setValue("Velociraptor");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Stegosaurus").child("dummy").setValue("Stegosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Triceratops").child("dummy").setValue("Triceratops");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Allosaurus").child("dummy").setValue("Allosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Ankylosaurus").child("dummy").setValue("Ankylosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Dilophosaurus").child("dummy").setValue("Dilophosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Carnotaurus").child("dummy").setValue("Carnotaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Diplodocus").child("dummy").setValue("Diplodocus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Iguanodon").child("dummy").setValue("Iguanodon");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Giganotosaurus").child("dummy").setValue("Giganotosaurus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Baryonyx").child("dummy").setValue("Baryonyx");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Gallimimus").child("dummy").setValue("Gallimimus");
+                            FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos").child("Megalosaurus").child("dummy").setValue("Megalosaurus");
                             currentUserDb.setValue(name);
                         }
                     }

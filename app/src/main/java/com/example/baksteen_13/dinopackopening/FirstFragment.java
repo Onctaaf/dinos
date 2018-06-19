@@ -3,6 +3,7 @@ package com.example.baksteen_13.dinopackopening;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.renderscript.Element;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.baksteen_13.dinopackopening.R.*;
 
@@ -34,13 +37,19 @@ public class FirstFragment extends Fragment{
 
 
     private TextView mTextMessage;
-    private ArrayList<String> al;
-    private ArrayAdapter arrayAdapter;
+    //private ArrayList<String> al;
+    private arrayAdapter arrayAdapter;
     private int i;
 
     private FirebaseAuth mAuth;
     private String currentUId;
     private DatabaseReference usersDb;
+
+    private cards cards_data[];
+
+
+    ListView listView;
+    List<cards> rowItems;
 
     @Nullable
     @Override
@@ -61,7 +70,7 @@ public class FirstFragment extends Fragment{
 
         super.onCreate(savedInstanceState);
 
-        al = new ArrayList<>();
+        rowItems = new ArrayList<cards>();
         /*al.add("Tyrannosaurus");
         al.add("Brachiosaurus");
         al.add("Spinosaurus");
@@ -79,7 +88,7 @@ public class FirstFragment extends Fragment{
         al.add("Gallimimus");
         al.add("Megalosaurus");*/
 
-        arrayAdapter = new ArrayAdapter<>(getActivity(), layout.item, id.helloText, al );
+        arrayAdapter = new arrayAdapter(getActivity(), layout.item, rowItems );
 
         /*int dinoId = 0;
         for(int i=0 ; i<arrayAdapter.getCount() ; i++){
@@ -126,7 +135,7 @@ public class FirstFragment extends Fragment{
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-                al.remove(0);
+                rowItems.remove(0);
                 arrayAdapter.notifyDataSetChanged();
             }
 
@@ -135,12 +144,26 @@ public class FirstFragment extends Fragment{
                 //Do something on the left!
                 //You also have access to the original object.
                 //If you want to use it just cast it (String) dataObject
-                Snackbar.make(myView, "DISLIKE", Snackbar.LENGTH_SHORT).show();
+
+                cards obj = (cards) dataObject;
+                String userId = obj.getUserId();
+                TextView dinoName = (TextView) myView.findViewById(R.id.name);
+                Log.d("mine", obj.getUserId() + " " + obj.getName());
+                usersDb.child("Dinos").child(obj.getName().toString()).child("connections").child("dislike").child(currentUId).setValue(currentUId);
+
+                Snackbar.make(myView, "Niet leuk", Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Snackbar.make(myView, "LIKE", Snackbar.LENGTH_SHORT).show();
+
+                cards obj = (cards) dataObject;
+                String userId = obj.getUserId();
+                TextView dinoName = (TextView) myView.findViewById(R.id.name);
+                Log.d("mine", obj.getUserId() + " " + obj.getName());
+                usersDb.child("Dinos").child(obj.getName().toString()).child("connections").child("like").child(currentUId).setValue(currentUId);
+
+                Snackbar.make(myView, "Leuk", Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
@@ -172,38 +195,44 @@ public class FirstFragment extends Fragment{
         });
         return myView;
     }/*end oncreateview()*/
-
-    private void getDinos() {
-        DatabaseReference dinosDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos");
-        dinosDb.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.exists()){
-                    al.add(dataSnapshot.child("name").getValue().toString());
-                    arrayAdapter.notifyDataSetChanged();
+    public int counter = 0;
+        private void getDinos() {
+            final DatabaseReference dinosDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos");
+            dinosDb.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    if (dataSnapshot.exists()){
+                        ArrayList<String> dinoList = new ArrayList<String>(){{ add("Allosaurus"); add("Ankylosaurus"); add("Baryonyx");add("Brachiosaurus");add("Carnotaurus");add("Dilophosaurus");add("Diplodocus");add("Gallimimus");  add("Giganotosaurus"); add("Iguanodon"); add("Megalosaurus"); add("Spinosaurus"); add("Stegosaurus"); add("Triceratops"); add("Tyrannosaurus"); add("Velociraptor");}};
+                        if (!dataSnapshot.child(dinoList.get(i)).child("connections").child("like").hasChild(currentUId) && !dataSnapshot.child(dinoList.get(i)).child("connections").child("dislike").hasChild(currentUId)) {
+                            Log.d("mine", "" + dataSnapshot + dataSnapshot.child(dinoList.get(counter)).child("connections").child("dislike").hasChild(currentUId));//deze shit gaat dus fout
+                            cards theItem = new cards(dataSnapshot.getKey(), (String) dataSnapshot.child(dinoList.get(i)).getKey());
+                            rowItems.add(theItem);
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                        counter++;
+                    }
                 }
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            }
+                }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-            }
+                }
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
     }
 
 }
