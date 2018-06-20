@@ -2,6 +2,9 @@ package com.example.baksteen_13.dinopackopening;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.renderscript.Element;
@@ -16,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +50,7 @@ public class FirstFragment extends Fragment{
     private DatabaseReference usersDb;
 
     private cards cards_data[];
-
+    public static String PACKAGE_NAME;
 
     ListView listView;
     List<cards> rowItems;
@@ -55,6 +59,11 @@ public class FirstFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         final View myView = inflater.inflate(layout.activity_main, container, false);
+
+
+        PACKAGE_NAME = getActivity().getApplicationContext().getPackageName();
+
+
 
         usersDb = FirebaseDatabase.getInstance().getReference().child("Users");
 
@@ -135,8 +144,10 @@ public class FirstFragment extends Fragment{
             public void removeFirstObjectInAdapter() {
                 // this is the simplest way to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!");
-                rowItems.remove(0);
-                arrayAdapter.notifyDataSetChanged();
+                if (arrayAdapter.getCount() > 0) {
+                    rowItems.remove(0);
+                    arrayAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -224,35 +235,15 @@ public class FirstFragment extends Fragment{
                             add("Triceratops");
                             add("Tyrannosaurus");
                             add("Velociraptor");
-                            Log.d("mine", "creating dinoList");
-                        }};
-
-
-                        ArrayList<String> imagelist = new ArrayList<String>() {{
-                            add("R.drawable.dino");
-                            add("");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            add("R.mipmap.ic_launcher");
-                            Log.d("mine", "creating imageList");
                         }};
 
                         if (!dataSnapshot.child("connections").child("like").hasChild(currentUId) && !dataSnapshot.child("connections").child("dislike").hasChild(currentUId)) {
                             //Log.d("mine", "" + dataSnapshot + dataSnapshot.child("connections").child());//deze shit gaat dus fout
                             cards theItem = new cards(dataSnapshot.getKey(), (String) dataSnapshot.child(dinoList.get(counter)).getKey());
                             theItem.setName(dinoList.get(counter));
-                            theItem.setImage(imagelist.get(counter));
+                            theItem.setImage(dinoList.get(counter));
+
+
                             rowItems.add(theItem);
                             arrayAdapter.notifyDataSetChanged();
                         }
@@ -283,4 +274,6 @@ public class FirstFragment extends Fragment{
             }
         });
 }
+
+
 }
