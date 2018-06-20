@@ -41,6 +41,13 @@ public class BurgerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentmanager = getFragmentManager();
+        fragmentmanager.beginTransaction()
+                .replace(R.id.content_frame
+                        , new FirstFragment())
+                .commit();
+
     }
 
     @Override

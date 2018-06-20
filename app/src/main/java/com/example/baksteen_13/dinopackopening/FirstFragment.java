@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.renderscript.Element;
@@ -51,7 +52,22 @@ public class FirstFragment extends Fragment{
 
     private cards cards_data[];
     public static String PACKAGE_NAME;
-
+    MediaPlayer tyrannosaurus = new MediaPlayer();
+    MediaPlayer triceratops = new MediaPlayer();
+    MediaPlayer carnotaurus = new MediaPlayer();
+    MediaPlayer diplodocus = new MediaPlayer();
+    MediaPlayer dilophosaurus = new MediaPlayer();
+    MediaPlayer gallimimus = new MediaPlayer();
+    MediaPlayer allosaurus = new MediaPlayer();
+    MediaPlayer ankylosaurus = new MediaPlayer();
+    MediaPlayer megalosaurus = new MediaPlayer();
+    MediaPlayer baryonyx = new MediaPlayer();
+    MediaPlayer gigantosaurus = new MediaPlayer();
+    MediaPlayer iguanodon = new MediaPlayer();
+    MediaPlayer steganosaurus = new MediaPlayer();
+    MediaPlayer velociraptor = new MediaPlayer();
+    MediaPlayer spinosaurus = new MediaPlayer();
+    MediaPlayer brachiosaurus = new MediaPlayer();
     ListView listView;
     List<cards> rowItems;
 
@@ -198,9 +214,12 @@ public class FirstFragment extends Fragment{
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-                Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getActivity(), "click", Toast.LENGTH_SHORT).show();
                 FragmentManager fragmentmanager = getFragmentManager();
-                fragmentmanager.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();
+                fragmentmanager.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();*/
+
+                cards obj = (cards) dataObject;
+                startPlaying(myView, obj.getUserId());
             }
         });
         return myView;
@@ -273,7 +292,62 @@ public class FirstFragment extends Fragment{
 
             }
         });
+
 }
 
+
+    private void startPlaying(View myView, String filename) {
+        Log.d("mine", filename + "        HIEERRRR");
+        if (filename == "Allosaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.allosaurus);
+        }else if (filename == "Ankylosaurus"){
+            Log.d("mine", filename);
+            MediaPlayer.create(getActivity().getBaseContext(), raw.ankylosaurus);
+            Log.d("mine", filename);
+        }else if (filename == "Baryonyx"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.baryonyx);
+            Log.d("mine", filename);
+        }else if (filename == "Brachiosaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.brachiosaurus);
+            Log.d("mine", filename);
+        }else if (filename == "Carnotaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.carnotaurus);
+            Log.d("mine", "Carnotaurus");
+        }else if (filename == "Dilophosaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.dilophosaurus);
+            Log.d("mine", "Dilophosaurus");
+        }else if (filename == "Diplodocus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.diplodocus);
+            Log.d("mine", filename);
+        }else if (filename == "Gallimimus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.gallimimus);
+            Log.d("mine", filename);
+        }else if (filename == "Gigantosaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.gigantosaurus);
+            Log.d("mine", filename);
+        }else if (filename == "Iguanodon"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.iguanodon);
+            Log.d("mine", filename);
+        }else if (filename == "Megalosaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.megalosaurus);
+            Log.d("mine", filename);
+        }else if (filename == "Spinosaurus"){
+             MediaPlayer.create(getActivity().getBaseContext(), raw.spinosaurus);
+            Log.d("mine", filename);
+        }else if (filename == "Steganosaurus"){
+             MediaPlayer.create(getActivity().getBaseContext(), raw.steganosaurus);
+            Log.d("mine", filename);
+        }else if (filename == "Triceratops"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.triceratops);
+            Log.d("mine", "Triceratops");
+        }else if (filename == "Tyrannosaurus"){
+            MediaPlayer.create(getActivity().getBaseContext(), raw.tyrannosaurus);
+            Log.d("mine", "Tyrannosaurus");
+        }else{
+            MediaPlayer.create(getActivity().getBaseContext(), raw.velociraptor).start();
+            Log.d("mine", filename);
+        }
+        //mediaPlayer.start(); // no need to call prepare(); create() does that for you
+    }
 
 }
