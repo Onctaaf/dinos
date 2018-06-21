@@ -103,8 +103,10 @@ pieChart.setCenterTextSize(25f);
                 pieChart.setHoleColor(Color.WHITE);
                 pieChart.setTransparentCircleRadius(61f);
                 pieChart.setEntryLabelTextSize(25f);
-                pieChart.setUsePercentValues(true);
-                pieChart.setDescriptionTextSize(12f);
+                pieChart.setUsePercentValues(false);
+                pieChart.getDescription().setTextSize(22f);
+                pieChart.getDescription().setEnabled(false);
+                pieChart.getLegend().setEnabled(false);
 
                 List<PieEntry> entries = new ArrayList<>();
 
@@ -116,6 +118,7 @@ pieChart.setCenterTextSize(25f);
                 Log.d("mine", String.valueOf(entries));
                 PieDataSet set = new PieDataSet(entries, "likes/dislikes");
                 PieData data = new PieData(set);
+                data.setValueTextSize(30f);
                 set.setColors(getResources().getColor(R.color.chartgreen), getResources().getColor(R.color.chartred));
                 pieChart.setData(data);
                 pieChart.invalidate(); // refresh

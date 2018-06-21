@@ -43,6 +43,7 @@ public class PieChartActivity extends AppCompatActivity {
 
         PieDataSet set = new PieDataSet(entries, "Election Results");
         PieData data = new PieData(set);
+        data.setValueTextSize(60f);
         pieChart.setData(data);
         pieChart.invalidate(); // refresh
 
