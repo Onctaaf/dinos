@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'org.mobicents.resources:ss7-test-sbb:8.0.0-56'
 
-    implementation 'com.github.PhilJay:MPAndroidChart:v2.1.5'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
 

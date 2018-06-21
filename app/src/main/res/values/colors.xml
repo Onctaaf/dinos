@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="chartblue">#3498db</color>
+    <color name="chartgreen">#2ecc71</color>
+    <color name="chartyellow">#f1c40f</color>
+    <color name="chartred">#e74c3c</color>
 </resources>

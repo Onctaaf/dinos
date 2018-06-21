@@ -23,9 +23,9 @@ import java.util.ArrayList;
 
 public class BurgerActivity extends AppCompatActivity
 //test
-
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //public Count likeCount = new Count(0,0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +89,10 @@ public class BurgerActivity extends AppCompatActivity
                     .replace(R.id.content_frame
                             , new FirstFragment())
                     .commit();
+//            fragmentmanager.beginTransaction()
+//                    .add(R.id.content_frame
+//                            , new SecondFragment())
+//                    .commit();
         } else if (id == R.id.nav_second_layout) {
             fragmentmanager.beginTransaction()
                     .replace(R.id.content_frame

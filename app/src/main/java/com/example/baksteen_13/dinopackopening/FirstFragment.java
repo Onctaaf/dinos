@@ -5,12 +5,19 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.renderscript.Element;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -37,8 +44,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.baksteen_13.dinopackopening.R.*;
+import static java.lang.StrictMath.toIntExact;
 
 public class FirstFragment extends Fragment{
+    private SoundPool soundPool;
+    private int allosaurus1, steganosaurus1, ankylosaurus1, baryonyx1,gallimimus1, diplodocus1,dilophosaurus1, carnotaurus1, brachiosaurus1, giganotosaurus1, iguanodon1,megalosaurus1, spinosaurus1, triceratops1, tyrannosaurus1, velociraptor1;
+
+
+
 
 
     private TextView mTextMessage;
@@ -52,22 +65,11 @@ public class FirstFragment extends Fragment{
 
     private cards cards_data[];
     public static String PACKAGE_NAME;
-    MediaPlayer tyrannosaurus = new MediaPlayer();
-    MediaPlayer triceratops = new MediaPlayer();
-    MediaPlayer carnotaurus = new MediaPlayer();
-    MediaPlayer diplodocus = new MediaPlayer();
-    MediaPlayer dilophosaurus = new MediaPlayer();
-    MediaPlayer gallimimus = new MediaPlayer();
-    MediaPlayer allosaurus = new MediaPlayer();
-    MediaPlayer ankylosaurus = new MediaPlayer();
-    MediaPlayer megalosaurus = new MediaPlayer();
-    MediaPlayer baryonyx = new MediaPlayer();
-    MediaPlayer gigantosaurus = new MediaPlayer();
-    MediaPlayer iguanodon = new MediaPlayer();
-    MediaPlayer steganosaurus = new MediaPlayer();
-    MediaPlayer velociraptor = new MediaPlayer();
-    MediaPlayer spinosaurus = new MediaPlayer();
-    MediaPlayer brachiosaurus = new MediaPlayer();
+
+    Count likeCount = new Count();
+
+
+
     ListView listView;
     List<cards> rowItems;
 
@@ -75,6 +77,36 @@ public class FirstFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         final View myView = inflater.inflate(layout.activity_main, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(16)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        }else{
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        allosaurus1 = soundPool.load(getActivity(), raw.allosaurus, 1);
+        ankylosaurus1 = soundPool.load(getActivity(), raw.ankylosaurus, 1);
+        baryonyx1 = soundPool.load(getActivity(), raw.baryonyx, 1);
+        gallimimus1 = soundPool.load(getActivity(), raw.gallimimus, 1);
+        diplodocus1 = soundPool.load(getActivity(), raw.diplodocus, 1);
+        dilophosaurus1 = soundPool.load(getActivity(), raw.dilophosaurus, 1);
+        carnotaurus1 = soundPool.load(getActivity(), raw.carnotaurus, 1);
+        brachiosaurus1 = soundPool.load(getActivity(), raw.brachiosaurus, 1);
+        giganotosaurus1 = soundPool.load(getActivity(), raw.gigantosaurus, 1);
+        iguanodon1 = soundPool.load(getActivity(), raw.iguanodon, 1);
+        megalosaurus1 = soundPool.load(getActivity(), raw.megalosaurus, 1);
+        spinosaurus1 = soundPool.load(getActivity(), raw.spinosaurus, 1);
+        triceratops1 = soundPool.load(getActivity(), raw.triceratops, 1);
+        tyrannosaurus1 = soundPool.load(getActivity(), raw.tyrannosaurus, 1);
+        velociraptor1 = soundPool.load(getActivity(), raw.velociraptor, 1);
+        steganosaurus1 = soundPool.load(getActivity(), raw.steganosaurus, 1);
 
 
         PACKAGE_NAME = getActivity().getApplicationContext().getPackageName();
@@ -176,7 +208,10 @@ public class FirstFragment extends Fragment{
                 String userId = obj.getUserId();
                 TextView dinoName = (TextView) myView.findViewById(R.id.name);
                 Log.d("mine", obj.getUserId() + " " + obj.getName());
-                usersDb.child("Dinos").child(obj.getName().toString()).child("connections").child("dislike").child(currentUId).setValue(currentUId);
+                usersDb.child("Dinos").child(obj.getName()).child("connections").child("dislike").child(currentUId).setValue(currentUId);
+                usersDb.child("Human").child(currentUId).child("connections").child("dislike").child(obj.getName()).setValue(obj.getName());
+                likeCount.setDislikes((int) (likeCount.getDislikes() + 1));
+                Log.d("mine", "DIT IS NU HET AANTAL LIKES & DISLIKES" + likeCount.getLikes() + "   " + likeCount.getDislikes());
                 Snackbar.make(myView, "Niet leuk", Snackbar.LENGTH_SHORT).show();
             }
 
@@ -187,8 +222,10 @@ public class FirstFragment extends Fragment{
                 String userId = obj.getUserId();
                 TextView dinoName = (TextView) myView.findViewById(R.id.name);
                 Log.d("mine", obj.getUserId() + " " + obj.getName());
-                usersDb.child("Dinos").child(obj.getName().toString()).child("connections").child("like").child(currentUId).setValue(currentUId);
-
+                usersDb.child("Dinos").child(obj.getName()).child("connections").child("like").child(currentUId).setValue(currentUId);
+                usersDb.child("Human").child(currentUId).child("connections").child("like").child(obj.getName()).setValue(obj.getName());//aanpassen
+                likeCount.setLikes((int) (likeCount.getLikes() + 1));
+                Log.d("mine", "DIT IS NU HET AANTAL LIKES & DISLIKES" + likeCount.getLikes() + "   " + likeCount.getDislikes());
                 Snackbar.make(myView, "Leuk", Snackbar.LENGTH_SHORT).show();
             }
 
@@ -222,54 +259,97 @@ public class FirstFragment extends Fragment{
                 startPlaying(myView, obj.getUserId());
             }
         });
+
         return myView;
     }/*end oncreateview()*/
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        soundPool.release();
+        arrayAdapter = null;
+        soundPool = null;
+        System.runFinalization(); Runtime.getRuntime().gc(); System.gc();
+    }
+
+
+   /*@Override
+    public void onPause() {
+        super.onPause();
+        soundPool.release();
+        soundPool = null;
+    }*/
+
     public int counter = 0;
     private void getDinos() {
         final DatabaseReference dinosDb = FirebaseDatabase.getInstance().getReference().child("Users").child("Dinos");
         dinosDb.addChildEventListener(new ChildEventListener() {
 
+            ArrayList<String> dinoList = new ArrayList<String>() {{
+                add("Allosaurus");
+                add("Ankylosaurus");
+                add("Baryonyx");
+                add("Brachiosaurus");
+                add("Carnotaurus");
+                add("Dilophosaurus");
+                add("Diplodocus");
+                add("Gallimimus");
+                add("Giganotosaurus");
+                add("Iguanodon");
+                add("Megalosaurus");
+                add("Spinosaurus");
+                add("Stegosaurus");
+                add("Triceratops");
+                add("Tyrannosaurus");
+                add("Velociraptor");
+                Log.d("mine", "created dinoList");
+            }};
 
-
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 //for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     if (dataSnapshot.exists()) {
-
-                        ArrayList<String> dinoList = new ArrayList<String>() {{
-                            add("Allosaurus");
-                            add("Ankylosaurus");
-                            add("Baryonyx");
-                            add("Brachiosaurus");
-                            add("Carnotaurus");
-                            add("Dilophosaurus");
-                            add("Diplodocus");
-                            add("Gallimimus");
-                            add("Giganotosaurus");
-                            add("Iguanodon");
-                            add("Megalosaurus");
-                            add("Spinosaurus");
-                            add("Stegosaurus");
-                            add("Triceratops");
-                            add("Tyrannosaurus");
-                            add("Velociraptor");
-                        }};
-
                         if (!dataSnapshot.child("connections").child("like").hasChild(currentUId) && !dataSnapshot.child("connections").child("dislike").hasChild(currentUId)) {
                             //Log.d("mine", "" + dataSnapshot + dataSnapshot.child("connections").child());//deze shit gaat dus fout
                             cards theItem = new cards(dataSnapshot.getKey(), (String) dataSnapshot.child(dinoList.get(counter)).getKey());
                             theItem.setName(dinoList.get(counter));
                             theItem.setImage(dinoList.get(counter));
-
-
                             rowItems.add(theItem);
-                            arrayAdapter.notifyDataSetChanged();
+                            if (arrayAdapter != null) {
+                                arrayAdapter.notifyDataSetChanged();
+                            }
                         }
                     }
                     counter++;
-                    Log.d("mine", "up de counter naar: " + counter);
+
+
                 //}
+
+
+//
+////test
+//                if (dataSnapshot.child(currentUId).child("connections").child("like").exists()){
+//                    int likesCounted = toIntExact(dataSnapshot.child(currentUId).child("connections").child("like").getChildrenCount());
+//                    likeCount.setLikes(likesCounted);
+//                }
+//                else {
+//                    int likesCounted = 0;
+//                    likeCount.setLikes(likesCounted);
+//                }
+//                if (dataSnapshot.child(currentUId).child("connections").child("dislike").exists()) {
+//                    int dislikesCounted = toIntExact(dataSnapshot.child(currentUId).child("connections").child("dislike").getChildrenCount());
+//                    likeCount.setDislikes(dislikesCounted);
+//                }else{
+//                    int dislikesCounted = 0;
+//                    likeCount.setDislikes(dislikesCounted);
+//                }
+//                Log.d("mine", likeCount.getLikes() + "      " + likeCount.getDislikes());
+//
+////test
+
+
             }
 
             @Override
@@ -292,62 +372,78 @@ public class FirstFragment extends Fragment{
 
             }
         });
-
 }
 
 
     private void startPlaying(View myView, String filename) {
-        Log.d("mine", filename + "        HIEERRRR");
+        //Log.d("mine", filename + "        HIEERRRR");
         if (filename == "Allosaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.allosaurus);
+            soundPool.play(allosaurus1, 1, 1, 1, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.allosaurus).start();
+            Log.d("mine", "Allosaurus");
         }else if (filename == "Ankylosaurus"){
-            Log.d("mine", filename);
-            MediaPlayer.create(getActivity().getBaseContext(), raw.ankylosaurus);
-            Log.d("mine", filename);
+            soundPool.play(ankylosaurus1, 1, 1, 1, 0, 1);
+            Log.d("mine", "Ankylosaurus");
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.ankylosaurus).start();
         }else if (filename == "Baryonyx"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.baryonyx);
-            Log.d("mine", filename);
+            soundPool.play(baryonyx1, 1, 1, 1, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.baryonyx).start();
+            Log.d("mine", "Baryonyx");
         }else if (filename == "Brachiosaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.brachiosaurus);
-            Log.d("mine", filename);
+            soundPool.play(brachiosaurus1, 1, 1, 1, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.brachiosaurus).start();
+            Log.d("mine","Brachiosaurus");
         }else if (filename == "Carnotaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.carnotaurus);
+            soundPool.play(carnotaurus1, 1, 1, 1, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.carnotaurus).start();
             Log.d("mine", "Carnotaurus");
         }else if (filename == "Dilophosaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.dilophosaurus);
+            soundPool.play(dilophosaurus1, 1, 1, 1, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.dilophosaurus).start();
             Log.d("mine", "Dilophosaurus");
         }else if (filename == "Diplodocus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.diplodocus);
-            Log.d("mine", filename);
+            soundPool.play(diplodocus1, 1, 1, 1, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.diplodocus).start();
+            Log.d("mine", "Diplodocus");
         }else if (filename == "Gallimimus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.gallimimus);
-            Log.d("mine", filename);
-        }else if (filename == "Gigantosaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.gigantosaurus);
-            Log.d("mine", filename);
+            soundPool.play(gallimimus1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.gallimimus).start();
+            Log.d("mine", "Gallimimus");
+        }else if (filename == "Giganotosaurus"){
+            soundPool.play(giganotosaurus1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.gigantosaurus).start();
+            Log.d("mine", "Gigantosaurus");
         }else if (filename == "Iguanodon"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.iguanodon);
-            Log.d("mine", filename);
+            soundPool.play(iguanodon1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.iguanodon).start();
+            Log.d("mine", "Iguanodon");
         }else if (filename == "Megalosaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.megalosaurus);
-            Log.d("mine", filename);
+            soundPool.play(megalosaurus1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.megalosaurus).start();
+            Log.d("mine", "Megalosaurus");
         }else if (filename == "Spinosaurus"){
-             MediaPlayer.create(getActivity().getBaseContext(), raw.spinosaurus);
+            soundPool.play(spinosaurus1, 1, 1, 0, 0, 1);
+//             MediaPlayer.create(getActivity().getBaseContext(), raw.spinosaurus).start();
             Log.d("mine", filename);
-        }else if (filename == "Steganosaurus"){
-             MediaPlayer.create(getActivity().getBaseContext(), raw.steganosaurus);
+        }else if (filename == "Stegosaurus"){
+            soundPool.play(steganosaurus1, 1, 1, 0, 0, 1);
+//             MediaPlayer.create(getActivity().getBaseContext(), raw.steganosaurus).start();
             Log.d("mine", filename);
         }else if (filename == "Triceratops"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.triceratops);
+            soundPool.play(triceratops1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.triceratops).start();
             Log.d("mine", "Triceratops");
         }else if (filename == "Tyrannosaurus"){
-            MediaPlayer.create(getActivity().getBaseContext(), raw.tyrannosaurus);
+            soundPool.play(tyrannosaurus1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.tyrannosaurus).start();
             Log.d("mine", "Tyrannosaurus");
-        }else{
-            MediaPlayer.create(getActivity().getBaseContext(), raw.velociraptor).start();
-            Log.d("mine", filename);
+        }else if (filename == "Velociraptor"){
+            soundPool.play(velociraptor1, 1, 1, 0, 0, 1);
+//            MediaPlayer.create(getActivity().getBaseContext(), raw.velociraptor).start();
+            Log.d("mine", "velociraptor");
         }
         //mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
+
 
 }
