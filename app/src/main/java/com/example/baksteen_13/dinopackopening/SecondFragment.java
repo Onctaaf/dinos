@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,9 @@ import static android.graphics.Color.BLACK;
 import static android.graphics.Color.BLUE;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
+import static android.graphics.Color.WHITE;
 import static android.graphics.Color.YELLOW;
+import static java.lang.StrictMath.round;
 import static java.lang.StrictMath.toIntExact;
 
 public class SecondFragment extends Fragment{
@@ -112,15 +116,17 @@ pieChart.setCenterTextSize(25f);
 
                 //Log.d("mine", likeCount.getLikes() + "     "+ likeCount.getDislikes());
 
-                entries.add(new PieEntry(likeCount.getLikes(), "Leuk"));
+                entries.add(new PieEntry(round(likeCount.getLikes()), "Leuk"));
                 entries.add(new PieEntry(likeCount.getDislikes(), "Niet leuk"));
                 Log.d("mine", likeCount.getLikes() + "    " + likeCount.getDislikes());
                 Log.d("mine", String.valueOf(entries));
                 PieDataSet set = new PieDataSet(entries, "likes/dislikes");
                 PieData data = new PieData(set);
                 data.setValueTextSize(30f);
+                data.setValueTextColor(WHITE);
                 set.setColors(getResources().getColor(R.color.chartgreen), getResources().getColor(R.color.chartred));
                 pieChart.setData(data);
+
                 pieChart.invalidate(); // refresh
             }
 
@@ -144,5 +150,4 @@ pieChart.setCenterTextSize(25f);
 
             }
         });
-}
-}
+}}
