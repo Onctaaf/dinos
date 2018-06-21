@@ -19,7 +19,9 @@
         app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text"
+        android:maxLength="15"/>
 
     <EditText
         android:id="@+id/email"
@@ -32,7 +34,8 @@
         app:layout_constraintBottom_toTopOf="@+id/submit_reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxLength="30"/>
 
     <EditText
         android:id="@+id/password"
@@ -44,7 +47,8 @@
         app:layout_constraintBottom_toTopOf="@+id/submit_reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:maxLength="15"/>
 
     <Button
         android:id="@+id/submit_reg"

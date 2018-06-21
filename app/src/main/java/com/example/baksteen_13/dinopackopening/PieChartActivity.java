@@ -25,7 +25,6 @@ public class PieChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pie_chart);
-
         pieChart = (PieChart) findViewById(R.id.idPieChart);
 
         pieChart.setUsePercentValues(true);
