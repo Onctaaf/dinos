@@ -10,8 +10,8 @@
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="380dp"
+        android:layout_height="560dp"
         android:background="#ffFEEE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
