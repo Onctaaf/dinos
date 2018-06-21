@@ -177,7 +177,7 @@ public class FirstFragment extends Fragment{
             }
         });
 
-        ImageButton like = (ImageButton) myView.findViewById(id.btndislike);
+        ImageButton like = (ImageButton) myView.findViewById(id.btnlike);
 
 
         like.setOnClickListener(new View.OnClickListener() {
