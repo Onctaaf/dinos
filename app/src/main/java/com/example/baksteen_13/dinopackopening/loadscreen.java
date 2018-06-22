@@ -28,7 +28,7 @@ public class loadscreen extends AppCompatActivity {
             public void run() {
                 while(mProgressStatus < 100){
                     mProgressStatus++;
-                    android.os.SystemClock.sleep(10);
+                    android.os.SystemClock.sleep(40);
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {

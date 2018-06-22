@@ -110,6 +110,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        Intent intent = new Intent(RegistrationActivity.this, ChooseActivity.class);
+        startActivity(intent);
+        finish();
+        return;
     }
 }

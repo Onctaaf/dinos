@@ -266,9 +266,11 @@ public class FirstFragment extends Fragment{
     @Override
     public void onStop() {
         super.onStop();
-        soundPool.release();
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
         arrayAdapter = null;
-        soundPool = null;
         System.runFinalization(); Runtime.getRuntime().gc(); System.gc();
     }
 
@@ -308,10 +310,8 @@ public class FirstFragment extends Fragment{
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                //for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     if (dataSnapshot.exists()) {
                         if (!dataSnapshot.child("connections").child("like").hasChild(currentUId) && !dataSnapshot.child("connections").child("dislike").hasChild(currentUId)) {
-                            //Log.d("mine", "" + dataSnapshot + dataSnapshot.child("connections").child());//deze shit gaat dus fout
                             cards theItem = new cards(dataSnapshot.getKey(), (String) dataSnapshot.child(dinoList.get(counter)).getKey());
                             theItem.setName(dinoList.get(counter));
                             theItem.setImage(dinoList.get(counter));
@@ -324,29 +324,7 @@ public class FirstFragment extends Fragment{
                     counter++;
 
 
-                //}
 
-
-//
-////test
-//                if (dataSnapshot.child(currentUId).child("connections").child("like").exists()){
-//                    int likesCounted = toIntExact(dataSnapshot.child(currentUId).child("connections").child("like").getChildrenCount());
-//                    likeCount.setLikes(likesCounted);
-//                }
-//                else {
-//                    int likesCounted = 0;
-//                    likeCount.setLikes(likesCounted);
-//                }
-//                if (dataSnapshot.child(currentUId).child("connections").child("dislike").exists()) {
-//                    int dislikesCounted = toIntExact(dataSnapshot.child(currentUId).child("connections").child("dislike").getChildrenCount());
-//                    likeCount.setDislikes(dislikesCounted);
-//                }else{
-//                    int dislikesCounted = 0;
-//                    likeCount.setDislikes(dislikesCounted);
-//                }
-//                Log.d("mine", likeCount.getLikes() + "      " + likeCount.getDislikes());
-//
-////test
 
 
             }
@@ -375,73 +353,55 @@ public class FirstFragment extends Fragment{
 
 
     private void startPlaying(View myView, String filename) {
-        //Log.d("mine", filename + "        HIEERRRR");
         if (filename.equals("Allosaurus")){
             soundPool.play(allosaurus1, 1, 1, 1, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.allosaurus).start();
             Log.d("mine", "play Allosaurus");
         }else if (filename.equals("Ankylosaurus")){
             soundPool.play(ankylosaurus1, 1, 1, 1, 0, 1);
             Log.d("mine", "play Ankylosaurus");
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.ankylosaurus).start();
         }else if (filename.equals("Baryonyx")){
             soundPool.play(baryonyx1, 1, 1, 1, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.baryonyx).start();
             Log.d("mine", "play Baryonyx");
         }else if (filename.equals("Brachiosaurus")){
             soundPool.play(brachiosaurus1, 1, 1, 1, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.brachiosaurus).start();
             Log.d("mine","play Brachiosaurus");
         }else if (filename.equals("Carnotaurus")){
             soundPool.play(carnotaurus1, 1, 1, 1, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.carnotaurus).start();
             Log.d("mine", "play Carnotaurus");
         }else if (filename.equals("Dilophosaurus")){
             soundPool.play(dilophosaurus1, 1, 1, 1, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.dilophosaurus).start();
             Log.d("mine", "play Dilophosaurus");
         }else if (filename.equals("Diplodocus")){
             soundPool.play(diplodocus1, 1, 1, 1, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.diplodocus).start();
             Log.d("mine", "play Diplodocus");
         }else if (filename.equals("Gallimimus")){
             soundPool.play(gallimimus1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.gallimimus).start();
             Log.d("mine", "play Gallimimus");
         }else if (filename.equals("Giganotosaurus")){
             soundPool.play(giganotosaurus1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.gigantosaurus).start();
             Log.d("mine", "play Gigantosaurus");
         }else if (filename.equals("Iguanodon")){
             soundPool.play(iguanodon1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.iguanodon).start();
             Log.d("mine", "play Iguanodon");
         }else if (filename.equals("Megalosaurus")){
             soundPool.play(megalosaurus1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.megalosaurus).start();
             Log.d("mine", "play Megalosaurus");
         }else if (filename.equals("Spinosaurus")){
             soundPool.play(spinosaurus1, 1, 1, 0, 0, 1);
-//             MediaPlayer.create(getActivity().getBaseContext(), raw.spinosaurus).start();
             Log.d("mine", "play spinosaurus");
         }else if (filename.equals("Stegosaurus")){
             soundPool.play(steganosaurus1, 1, 1, 0, 0, 1);
-//             MediaPlayer.create(getActivity().getBaseContext(), raw.steganosaurus).start();
             Log.d("mine", filename);
         }else if (filename.equals("Triceratops")){
             soundPool.play(triceratops1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.triceratops).start();
             Log.d("mine", "play Triceratops");
         }else if (filename.equals("Tyrannosaurus")){
             soundPool.play(tyrannosaurus1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.tyrannosaurus).start();
             Log.d("mine", "play Tyrannosaurus");
         }else if (filename.equals("Velociraptor")){
             soundPool.play(velociraptor1, 1, 1, 0, 0, 1);
-//            MediaPlayer.create(getActivity().getBaseContext(), raw.velociraptor).start();
             Log.d("mine", "play velociraptor");
         }
-        //mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
 
